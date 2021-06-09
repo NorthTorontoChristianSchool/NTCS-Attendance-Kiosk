@@ -27,9 +27,8 @@ namespace NTCSAttendanceKiosk
         public KioskForm()
         {
             InitializeComponent();
+            LocationLabel.Text = SqlConnectionInfo.KioskLocation;
             Cursor.Hide();
-            //this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            //this.WindowState = FormWindowState.Normal;
             AdvancePublicMessage();
         }
 
@@ -202,7 +201,6 @@ namespace NTCSAttendanceKiosk
             {
                 PublicMessages.Clear();
                 PublicMessages.Add("Failed to load messages.");
-                SqlConnectionInfo.LogError(ex.ToString());
             }
         }
 
@@ -343,12 +341,10 @@ namespace NTCSAttendanceKiosk
                 {
                     // Display the error code and the error
                     DisplayScanResult(DisplayType.Failure, "System Error - " + se.Number.ToString(), se.Message);
-                    SqlConnectionInfo.LogError(se.ToString());
                 }
                 catch (Exception ex)
                 {
                     DisplayScanResult(DisplayType.Failure, "System Error", ex.Message);
-                    SqlConnectionInfo.LogError(ex.ToString());
                 }
             }
         }

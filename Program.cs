@@ -51,7 +51,7 @@ namespace NTCSAttendanceKiosk
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("The file location.txt does not exist. Please place the connection string in that file and place it in <your user folder>\\kiosk_config\\. The kiosk program will now exit.", "Connection String File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The file location.txt does not exist. Please place the kiosk location name in that file and place it in <your user folder>\\kiosk_config\\. The kiosk program will now exit.", "Connection String File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             catch (IOException)

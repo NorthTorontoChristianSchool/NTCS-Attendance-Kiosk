@@ -47,6 +47,7 @@ namespace NTCSAttendanceKiosk
             this.SecurityTimer = new System.Windows.Forms.Timer(this.components);
             this.SuccesIndicatorPictureBox = new System.Windows.Forms.PictureBox();
             this.ClockLabel = new System.Windows.Forms.Label();
+            this.LocationLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PublicMessagePanel.SuspendLayout();
             this.UserMessagePanel.SuspendLayout();
@@ -200,6 +201,7 @@ namespace NTCSAttendanceKiosk
             // 
             // SecurityTimer
             // 
+            this.SecurityTimer.Enabled = true;
             this.SecurityTimer.Tick += new System.EventHandler(this.SecurityTimer_Tick);
             // 
             // SuccesIndicatorPictureBox
@@ -226,12 +228,23 @@ namespace NTCSAttendanceKiosk
             this.ClockLabel.Text = "2021-06-08\r\n17:35:54";
             this.ClockLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // LocationLabel
+            // 
+            this.LocationLabel.AutoSize = true;
+            this.LocationLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LocationLabel.Location = new System.Drawing.Point(12, 9);
+            this.LocationLabel.Name = "LocationLabel";
+            this.LocationLabel.Size = new System.Drawing.Size(57, 17);
+            this.LocationLabel.TabIndex = 9;
+            this.LocationLabel.Text = "Location";
+            // 
             // KioskForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1024, 768);
+            this.Controls.Add(this.LocationLabel);
             this.Controls.Add(this.SuccesIndicatorPictureBox);
             this.Controls.Add(this.UserMessagePanel);
             this.Controls.Add(this.PublicMessagePanel);
@@ -282,6 +295,7 @@ namespace NTCSAttendanceKiosk
         private System.Windows.Forms.PictureBox SuccesIndicatorPictureBox;
         private System.Windows.Forms.Label ClockLabel;
         private System.Windows.Forms.Label PublicMessageLabel;
+        private System.Windows.Forms.Label LocationLabel;
     }
 }
 

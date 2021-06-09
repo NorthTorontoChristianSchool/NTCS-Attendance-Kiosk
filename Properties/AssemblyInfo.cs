@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("North Toronto Christian School")]
 [assembly: AssemblyProduct("NTCSAttendanceKiosk")]
-[assembly: AssemblyCopyright("Copyright © 2021 Félix An")]
+[assembly: AssemblyCopyright("Copyright © 2021 Félix An. Licensed under the MIT License.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
