@@ -202,7 +202,6 @@ namespace NTCSAttendanceKiosk
             // SecurityTimer
             // 
             this.SecurityTimer.Enabled = true;
-            this.SecurityTimer.Interval = 400;
             this.SecurityTimer.Tick += new System.EventHandler(this.SecurityTimer_Tick);
             // 
             // SuccesIndicatorPictureBox

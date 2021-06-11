@@ -1,32 +1,60 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
-using System.Threading;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace NTCSAttendanceKiosk
 {
     static class Program
     {
+        // Unmanaged code to set the foreground window
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        public static Process PriorProcess()
+        {
+            // Returns a System.Diagnostics.Process pointing to
+            // a pre-existing process with the same name as the
+            // current one, if any; or null if the current process
+            // is unique.
+            // Source: https://stackoverflow.com/a/6416663/12946280
+            Process curr = Process.GetCurrentProcess();
+            Process[] procs = Process.GetProcessesByName(curr.ProcessName);
+            foreach (Process p in procs)
+            {
+                if ((p.Id != curr.Id) &&
+                    (p.MainModule.FileName == curr.MainModule.FileName))
+                    return p;
+            }
+            return null;
+        }
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            // Make a mutex and detect if another instance of the program is running
-            Mutex mutex = new Mutex(true, "AtteNTCSKioskMutex", out bool mutexResult);
-
-            if (!mutexResult)
+            // Check if another instance of the app is running and exit if it is
+            if (PriorProcess() != null)
             {
-                // Exit if it's already running
+                Process current = Process.GetCurrentProcess();
+                foreach (Process process in Process.GetProcessesByName(current.ProcessName))
+                {
+                    if (process.Id != current.Id)
+                    {
+                        SetForegroundWindow(process.MainWindowHandle);
+                        break;
+                    }
+                }
                 return;
             }
 
-            // Prevent the mutex from being released by the GC
-            GC.KeepAlive(mutex);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
             // Read the connection string from the file
             try

@@ -2,14 +2,27 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace NTCSAttendanceKiosk
 {
     public partial class KioskForm : Form
     {
+        // Unmanaged code to keep the window on top
+        [DllImport("User32.dll")]
+        internal static extern IntPtr SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        internal static readonly IntPtr InvalidHandleValue = IntPtr.Zero;
+        internal const int SW_MAXIMIZE = 3;
+
+        // Stores the list of messages
         private List<string> PublicMessages = new List<string>();
         private int CurrentPublicMessage;
 
@@ -26,6 +39,7 @@ namespace NTCSAttendanceKiosk
             LocationLabel.Text = SqlConnectionInfo.KioskLocation;
             Cursor.Hide();
             AdvancePublicMessage();
+            SecurityTimer.Start();
         }
 
         // About 444 chars on average can fit inside the user message box.
@@ -81,6 +95,7 @@ namespace NTCSAttendanceKiosk
         private void HideUserMessageTimer_Tick(object sender, EventArgs e)
         {
             this.HideScanResultControls();
+            HideUserMessageTimer.Stop();
         }
 
         private void DisplayScanResult(DisplayType type, string titleText, string userMessageText)
@@ -134,8 +149,13 @@ namespace NTCSAttendanceKiosk
         private void SecurityTimer_Tick(object sender, EventArgs e)
         {
             this.BringToFront();
-            this.Activate();
-            this.Focus();
+            Process currentProcess = Process.GetCurrentProcess();
+            IntPtr hWnd = currentProcess.MainWindowHandle;
+            if (hWnd != InvalidHandleValue)
+            {
+                SetForegroundWindow(hWnd);
+                ShowWindow(hWnd, SW_MAXIMIZE);
+            }
             CardTextBox.Focus();
         }
 
@@ -193,7 +213,7 @@ namespace NTCSAttendanceKiosk
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 PublicMessages.Clear();
                 PublicMessages.Add("Failed to load messages.");
