@@ -56,6 +56,13 @@ namespace NTCSAttendanceKiosk
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Check if the directory exists and exit if it doesn't
+            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\kiosk_config\\"))
+            {
+                MessageBox.Show("The directory <your user folder>\\kiosk_config\\ does not exist. Please create that directory and create two files in it titled connection_string.txt and location.txt containing the SQL connection string and location of the kiosk. The kiosk program will now exit.", "Config Directory Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             // Read the connection string from the file
             try
             {
